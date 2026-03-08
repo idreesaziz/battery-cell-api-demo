@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 
 import { env } from "./config/env";
@@ -13,6 +14,7 @@ import { requestLogger } from "./middleware/request-logger";
 const app = express();
 
 // --------------- Middleware ---------------
+app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
