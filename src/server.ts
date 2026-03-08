@@ -8,12 +8,14 @@ import { swaggerSpec } from "./config/swagger";
 import { AppDataSource } from "./database/data-source";
 import cellRoutes from "./routes/cell.routes";
 import { errorHandler } from "./middleware/error-handler";
+import { requestLogger } from "./middleware/request-logger";
 
 const app = express();
 
 // --------------- Middleware ---------------
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
 
 // --------------- Swagger Docs ---------------
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
