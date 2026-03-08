@@ -3,10 +3,12 @@ import {
   createCell,
   getAllCells,
   getCellById,
+  updateCell,
   deleteCell,
 } from "../controllers/cell.controller";
 import {
   createCellValidation,
+  updateCellValidation,
   idParamValidation,
 } from "./cell.validators";
 
@@ -93,6 +95,43 @@ router.get("/", getAllCells);
  *               $ref: '#/components/schemas/NotFoundError'
  */
 router.get("/:id", idParamValidation, getCellById);
+
+/**
+ * @openapi
+ * /cells/{id}:
+ *   patch:
+ *     summary: Update a battery cell entry
+ *     tags: [Battery Cells]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *         description: Battery cell UUID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateBatteryCellInput'
+ *           example:
+ *             voltage: 3.85
+ *             temperature: 30.2
+ *     responses:
+ *       200:
+ *         description: Battery cell updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/BatteryCell'
+ *       400:
+ *         description: Validation error
+ *       404:
+ *         description: Battery cell not found
+ */
+router.patch("/:id", [...idParamValidation, ...updateCellValidation], updateCell);
 
 /**
  * @openapi

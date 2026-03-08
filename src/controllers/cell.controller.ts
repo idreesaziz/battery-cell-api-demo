@@ -75,6 +75,35 @@ export const getCellById = async (
 };
 
 /**
+ * PATCH /cells/:id — update a cell.
+ */
+export const updateCell = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const cell = await repo().findOneBy({ id: req.params.id });
+    if (!cell) {
+      res.status(404).json({ message: "Battery cell not found" });
+      return;
+    }
+
+    repo().merge(cell, req.body);
+    const updated = await repo().save(cell);
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
  * DELETE /cells/:id — delete a cell.
  */
 export const deleteCell = async (

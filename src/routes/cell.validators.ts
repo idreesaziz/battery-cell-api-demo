@@ -20,6 +20,25 @@ export const createCellValidation = [
     .withMessage("stateOfHealth must be between 0 and 100"),
 ];
 
+export const updateCellValidation = [
+  body("voltage")
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage("voltage must be a non-negative number"),
+  body("temperature")
+    .optional()
+    .isFloat()
+    .withMessage("temperature must be a number"),
+  body("stateOfCharge")
+    .optional()
+    .isFloat({ min: 0, max: 100 })
+    .withMessage("stateOfCharge must be between 0 and 100"),
+  body("stateOfHealth")
+    .optional()
+    .isFloat({ min: 0, max: 100 })
+    .withMessage("stateOfHealth must be between 0 and 100"),
+];
+
 export const idParamValidation = [
   param("id").isUUID().withMessage("id must be a valid UUID"),
 ];

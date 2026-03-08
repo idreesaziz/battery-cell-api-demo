@@ -109,6 +109,36 @@ const options: swaggerJsdoc.Options = {
             },
           },
         },
+        UpdateBatteryCellInput: {
+          type: "object",
+          properties: {
+            voltage: {
+              type: "number",
+              format: "float",
+              minimum: 0,
+              example: 3.85,
+            },
+            temperature: {
+              type: "number",
+              format: "float",
+              example: 30.2,
+            },
+            stateOfCharge: {
+              type: "number",
+              format: "float",
+              minimum: 0,
+              maximum: 100,
+              example: 91.0,
+            },
+            stateOfHealth: {
+              type: "number",
+              format: "float",
+              minimum: 0,
+              maximum: 100,
+              example: 98.5,
+            },
+          },
+        },
         ValidationError: {
           type: "object",
           properties: {
