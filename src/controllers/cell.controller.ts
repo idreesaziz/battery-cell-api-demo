@@ -80,7 +80,8 @@ export const getCellById = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const cell = await repo().findOneBy({ id: req.params.id });
+    const id = req.params.id as string;
+    const cell = await repo().findOneBy({ id });
     if (!cell) {
       res.status(404).json({ message: "Battery cell not found" });
       return;
@@ -106,7 +107,8 @@ export const updateCell = async (
       return;
     }
 
-    const cell = await repo().findOneBy({ id: req.params.id });
+    const id = req.params.id as string;
+    const cell = await repo().findOneBy({ id });
     if (!cell) {
       res.status(404).json({ message: "Battery cell not found" });
       return;
@@ -129,7 +131,8 @@ export const deleteCell = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const result = await repo().delete(req.params.id);
+    const id = req.params.id as string;
+    const result = await repo().delete(id);
     if (result.affected === 0) {
       res.status(404).json({ message: "Battery cell not found" });
       return;
