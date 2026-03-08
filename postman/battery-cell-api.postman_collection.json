@@ -115,6 +115,44 @@
       "response": []
     },
     {
+      "name": "Update Battery Cell",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Voltage updated', () => {",
+              "  const res = pm.response.json();",
+              "  pm.expect(res.voltage).to.eql(3.85);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"voltage\": 3.85,\n  \"temperature\": 30.2\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/cells/{{cellId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["cells", "{{cellId}}"]
+        },
+        "description": "Partially update a battery cell entry."
+      },
+      "response": []
+    },
+    {
       "name": "Delete Battery Cell",
       "event": [
         {

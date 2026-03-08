@@ -17,6 +17,7 @@ Built as a demonstration of full-stack backend engineering competence with moder
 | ORM | TypeORM |
 | API Docs | Swagger / OpenAPI 3 (swagger-ui) |
 | Validation | express-validator |
+| Security | helmet |
 | Dev Server | ts-node-dev |
 | API Testing | Postman |
 
@@ -59,7 +60,7 @@ postman/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/battery-cell-api-demo.git
+git clone https://github.com/idreesaziz/battery-cell-api-demo.git
 cd battery-cell-api-demo
 ```
 
@@ -111,8 +112,9 @@ The server starts at `http://localhost:3000`.
 | Method | Path | Description |
 | -------- | ------------ | ---------------------------------------- |
 | `POST` | `/cells` | Create a new battery cell telemetry entry |
-| `GET` | `/cells` | Retrieve all battery cells |
+| `GET` | `/cells` | Retrieve all cells (paginated) |
 | `GET` | `/cells/:id` | Retrieve a single cell by UUID |
+| `PATCH` | `/cells/:id` | Partially update a cell |
 | `DELETE` | `/cells/:id` | Delete a cell by UUID |
 | `GET` | `/health` | Health check |
 
@@ -151,8 +153,10 @@ curl -X POST http://localhost:3000/cells \
 ### Get all cells
 
 ```bash
-curl http://localhost:3000/cells
+curl "http://localhost:3000/cells?page=1&limit=10"
 ```
+
+> Supports pagination via `page` and `limit` query params (default: 20 per page, max: 100).
 
 ### Get cell by ID
 
@@ -164,6 +168,17 @@ curl http://localhost:3000/cells/a1b2c3d4-e5f6-7890-abcd-ef1234567890
 
 ```bash
 curl -X DELETE http://localhost:3000/cells/a1b2c3d4-e5f6-7890-abcd-ef1234567890
+```
+
+### Update a cell
+
+```bash
+curl -X PATCH http://localhost:3000/cells/a1b2c3d4-e5f6-7890-abcd-ef1234567890 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "voltage": 3.85,
+    "temperature": 30.2
+  }'
 ```
 
 ---
