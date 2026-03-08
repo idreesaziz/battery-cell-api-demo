@@ -39,16 +39,33 @@ export const createCell = async (
 };
 
 /**
- * GET /cells — return all battery cells.
+ * GET /cells — return battery cells with pagination.
  */
 export const getAllCells = async (
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
   try {
-    const cells = await repo().find({ order: { createdAt: "DESC" } });
-    res.json(cells);
+    const page = Math.max(parseInt(req.query.page as string) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 20, 1), 100);
+    const skip = (page - 1) * limit;
+
+    const [cells, total] = await repo().findAndCount({
+      order: { createdAt: "DESC" },
+      skip,
+      take: limit,
+    });
+
+    res.json({
+      data: cells,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
+      },
+    });
   } catch (err) {
     next(err);
   }

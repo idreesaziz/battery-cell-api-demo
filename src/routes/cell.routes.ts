@@ -52,17 +52,45 @@ router.post("/", createCellValidation, createCell);
  * @openapi
  * /cells:
  *   get:
- *     summary: Return all battery cells
+ *     summary: Return battery cells (paginated)
  *     tags: [Battery Cells]
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *           maximum: 100
+ *         description: Items per page
  *     responses:
  *       200:
- *         description: List of battery cells
+ *         description: Paginated list of battery cells
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/BatteryCell'
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/BatteryCell'
+ *                 meta:
+ *                   type: object
+ *                   properties:
+ *                     page:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
+ *                     total:
+ *                       type: integer
+ *                     totalPages:
+ *                       type: integer
  */
 router.get("/", getAllCells);
 
