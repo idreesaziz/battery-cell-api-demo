@@ -48,6 +48,28 @@ postman/
 
 ---
 
+## Architecture
+
+```
+  API Client / Postman
+          │
+          ▼
+    Express Router
+          │
+          ▼
+     Controllers
+          │
+          ▼
+     TypeORM ORM
+          │
+          ▼
+  PostgreSQL Database
+```
+
+Requests flow through Express middleware (helmet, CORS, JSON parsing, request logging), into route handlers with input validation, through async controllers, and into TypeORM which manages the PostgreSQL connection and query building.
+
+---
+
 ## Prerequisites
 
 - **Node.js** ≥ 18
@@ -192,8 +214,6 @@ http://localhost:3000/docs
 ```
 
 ![Swagger UI](docs/swagger-screenshot.png)
-
-*Screenshot placeholder — replace with an actual capture after running the server.*
 
 ---
 
