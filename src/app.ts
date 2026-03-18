@@ -2,6 +2,7 @@ import "reflect-metadata";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import compression from "compression";
 import swaggerUi from "swagger-ui-express";
 
 import { swaggerSpec } from "./config/swagger";
@@ -16,6 +17,7 @@ const app = express();
 // --------------- Middleware ---------------
 app.use(helmet());
 app.use(cors());
+app.use(compression());
 app.use(express.json({ limit: "1mb" }));
 app.use(correlationId);
 app.use(requestLogger);
