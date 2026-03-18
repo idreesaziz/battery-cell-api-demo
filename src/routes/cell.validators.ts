@@ -18,6 +18,10 @@ export const createCellValidation = [
   body("stateOfHealth")
     .isFloat({ min: 0, max: 100 })
     .withMessage("stateOfHealth must be between 0 and 100"),
+  body("cycleCount")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("cycleCount must be a non-negative integer"),
 ];
 
 export const updateCellValidation = [
@@ -37,6 +41,10 @@ export const updateCellValidation = [
     .optional()
     .isFloat({ min: 0, max: 100 })
     .withMessage("stateOfHealth must be between 0 and 100"),
+  body("cycleCount")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("cycleCount must be a non-negative integer"),
 ];
 
 export const idParamValidation = [

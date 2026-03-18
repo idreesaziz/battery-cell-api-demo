@@ -61,6 +61,10 @@ const options: swaggerJsdoc.Options = {
               format: "float",
               example: 99.1,
             },
+            cycleCount: {
+              type: "integer",
+              example: 150,
+            },
             createdAt: {
               type: "string",
               format: "date-time",
@@ -112,6 +116,11 @@ const options: swaggerJsdoc.Options = {
               maximum: 100,
               example: 99.1,
             },
+            cycleCount: {
+              type: "integer",
+              minimum: 0,
+              example: 150,
+            },
           },
         },
         UpdateBatteryCellInput: {
@@ -141,6 +150,11 @@ const options: swaggerJsdoc.Options = {
               minimum: 0,
               maximum: 100,
               example: 98.5,
+            },
+            cycleCount: {
+              type: "integer",
+              minimum: 0,
+              example: 160,
             },
           },
         },

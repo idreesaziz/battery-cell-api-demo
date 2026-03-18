@@ -26,6 +26,9 @@ export class BatteryCell {
   @Column({ type: "float" })
   stateOfHealth!: number;
 
+  @Column({ type: "int", default: 0 })
+  cycleCount!: number;
+
   @CreateDateColumn()
   createdAt!: Date;
 

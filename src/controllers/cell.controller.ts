@@ -20,7 +20,7 @@ export const createCell = async (
       return;
     }
 
-    const { serialNumber, voltage, temperature, stateOfCharge, stateOfHealth } =
+    const { serialNumber, voltage, temperature, stateOfCharge, stateOfHealth, cycleCount } =
       req.body;
 
     const cell = repo().create({
@@ -29,6 +29,7 @@ export const createCell = async (
       temperature,
       stateOfCharge,
       stateOfHealth,
+      cycleCount: cycleCount ?? 0,
     });
 
     const saved = await repo().save(cell);
