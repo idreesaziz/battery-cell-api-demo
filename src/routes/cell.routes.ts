@@ -3,6 +3,7 @@ import {
   createCell,
   getAllCells,
   getCellById,
+  getCellStats,
   updateCell,
   deleteCell,
 } from "../controllers/cell.controller";
@@ -112,6 +113,43 @@ router.post("/", createCellValidation, createCell);
  *                       type: integer
  */
 router.get("/", getAllCells);
+
+/**
+ * @openapi
+ * /cells/stats:
+ *   get:
+ *     summary: Get aggregate statistics for all battery cells
+ *     tags: [Battery Cells]
+ *     responses:
+ *       200:
+ *         description: Aggregate statistics
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 totalCells:
+ *                   type: integer
+ *                 avgVoltage:
+ *                   type: number
+ *                 avgTemperature:
+ *                   type: number
+ *                 avgStateOfCharge:
+ *                   type: number
+ *                 avgStateOfHealth:
+ *                   type: number
+ *                 avgCycleCount:
+ *                   type: number
+ *                 minVoltage:
+ *                   type: number
+ *                 maxVoltage:
+ *                   type: number
+ *                 minTemperature:
+ *                   type: number
+ *                 maxTemperature:
+ *                   type: number
+ */
+router.get("/stats", getCellStats);
 
 /**
  * @openapi

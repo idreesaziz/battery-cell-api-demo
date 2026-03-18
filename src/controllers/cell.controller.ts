@@ -86,6 +86,37 @@ export const getAllCells = async (
 };
 
 /**
+ * GET /cells/stats — return aggregate statistics for all battery cells.
+ */
+export const getCellStats = async (
+  _req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const stats = await repo()
+      .createQueryBuilder("cell")
+      .select([
+        "COUNT(*)::int AS \"totalCells\"",
+        "ROUND(AVG(cell.voltage)::numeric, 2) AS \"avgVoltage\"",
+        "ROUND(AVG(cell.temperature)::numeric, 2) AS \"avgTemperature\"",
+        "ROUND(AVG(cell.state_of_charge)::numeric, 2) AS \"avgStateOfCharge\"",
+        "ROUND(AVG(cell.state_of_health)::numeric, 2) AS \"avgStateOfHealth\"",
+        "ROUND(AVG(cell.cycle_count)::numeric, 2) AS \"avgCycleCount\"",
+        "MIN(cell.voltage) AS \"minVoltage\"",
+        "MAX(cell.voltage) AS \"maxVoltage\"",
+        "MIN(cell.temperature) AS \"minTemperature\"",
+        "MAX(cell.temperature) AS \"maxTemperature\"",
+      ])
+      .getRawOne();
+
+    res.json(stats);
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
  * GET /cells/:id — return a single cell.
  */
 export const getCellById = async (
