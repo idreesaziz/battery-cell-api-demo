@@ -38,6 +38,11 @@ app.get("/health", (_req, res) => {
 
 app.use("/cells", cellRoutes);
 
+// --------------- Not Found Handler ---------------
+app.use((_req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
 // --------------- Error Handler ---------------
 app.use(errorHandler);
 
