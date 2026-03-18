@@ -119,6 +119,26 @@ router.post("/batch", batchCreateCellValidation, createCellsBatch);
  *           enum: [ASC, DESC]
  *           default: DESC
  *         description: Sort order
+ *       - in: query
+ *         name: minVoltage
+ *         schema:
+ *           type: number
+ *         description: Minimum voltage filter
+ *       - in: query
+ *         name: maxVoltage
+ *         schema:
+ *           type: number
+ *         description: Maximum voltage filter
+ *       - in: query
+ *         name: minTemperature
+ *         schema:
+ *           type: number
+ *         description: Minimum temperature filter
+ *       - in: query
+ *         name: maxTemperature
+ *         schema:
+ *           type: number
+ *         description: Maximum temperature filter
  *     responses:
  *       200:
  *         description: Paginated list of battery cells

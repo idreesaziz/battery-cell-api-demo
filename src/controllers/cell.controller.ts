@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
-import { Like } from "typeorm";
+import { Like, Between, MoreThanOrEqual, LessThanOrEqual } from "typeorm";
 import { AppDataSource } from "../database/data-source";
 import { BatteryCell } from "../entities/BatteryCell";
 
@@ -106,6 +106,28 @@ export const getAllCells = async (
     const where: Record<string, any> = {};
     if (req.query.serialNumber) {
       where.serialNumber = Like(`%${req.query.serialNumber as string}%`);
+    }
+
+    // Voltage range filter
+    const minVoltage = parseFloat(req.query.minVoltage as string);
+    const maxVoltage = parseFloat(req.query.maxVoltage as string);
+    if (!isNaN(minVoltage) && !isNaN(maxVoltage)) {
+      where.voltage = Between(minVoltage, maxVoltage);
+    } else if (!isNaN(minVoltage)) {
+      where.voltage = MoreThanOrEqual(minVoltage);
+    } else if (!isNaN(maxVoltage)) {
+      where.voltage = LessThanOrEqual(maxVoltage);
+    }
+
+    // Temperature range filter
+    const minTemp = parseFloat(req.query.minTemperature as string);
+    const maxTemp = parseFloat(req.query.maxTemperature as string);
+    if (!isNaN(minTemp) && !isNaN(maxTemp)) {
+      where.temperature = Between(minTemp, maxTemp);
+    } else if (!isNaN(minTemp)) {
+      where.temperature = MoreThanOrEqual(minTemp);
+    } else if (!isNaN(maxTemp)) {
+      where.temperature = LessThanOrEqual(maxTemp);
     }
 
     const [cells, total] = await repo().findAndCount({
