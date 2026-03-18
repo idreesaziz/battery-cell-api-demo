@@ -169,6 +169,12 @@ export const getCellById = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
     const id = req.params.id as string;
     const cell = await repo().findOneBy({ id });
     if (!cell) {
@@ -220,6 +226,12 @@ export const deleteCell = async (
   next: NextFunction,
 ): Promise<void> => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
     const id = req.params.id as string;
     const result = await repo().delete(id);
     if (result.affected === 0) {
