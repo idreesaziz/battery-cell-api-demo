@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createCell,
+  createCellsBatch,
   getAllCells,
   getCellById,
   getCellStats,
@@ -9,6 +10,7 @@ import {
 } from "../controllers/cell.controller";
 import {
   createCellValidation,
+  batchCreateCellValidation,
   updateCellValidation,
   idParamValidation,
 } from "./cell.validators";
@@ -48,6 +50,35 @@ const router = Router();
  *               $ref: '#/components/schemas/ValidationError'
  */
 router.post("/", createCellValidation, createCell);
+
+/**
+ * @openapi
+ * /cells/batch:
+ *   post:
+ *     summary: Create multiple battery cell entries (max 100)
+ *     tags: [Battery Cells]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               $ref: '#/components/schemas/CreateBatteryCellInput'
+ *             maxItems: 100
+ *     responses:
+ *       201:
+ *         description: Battery cells created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/BatteryCell'
+ *       400:
+ *         description: Validation error
+ */
+router.post("/batch", batchCreateCellValidation, createCellsBatch);
 
 /**
  * @openapi

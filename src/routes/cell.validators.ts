@@ -24,6 +24,30 @@ export const createCellValidation = [
     .withMessage("cycleCount must be a non-negative integer"),
 ];
 
+export const batchCreateCellValidation = [
+  body("*.serialNumber")
+    .isString()
+    .trim()
+    .notEmpty()
+    .withMessage("serialNumber is required"),
+  body("*.voltage")
+    .isFloat({ min: 0 })
+    .withMessage("voltage must be a non-negative number"),
+  body("*.temperature")
+    .isFloat()
+    .withMessage("temperature must be a number"),
+  body("*.stateOfCharge")
+    .isFloat({ min: 0, max: 100 })
+    .withMessage("stateOfCharge must be between 0 and 100"),
+  body("*.stateOfHealth")
+    .isFloat({ min: 0, max: 100 })
+    .withMessage("stateOfHealth must be between 0 and 100"),
+  body("*.cycleCount")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("cycleCount must be a non-negative integer"),
+];
+
 export const updateCellValidation = [
   body("voltage")
     .optional()

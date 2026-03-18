@@ -41,6 +41,50 @@ export const createCell = async (
 };
 
 /**
+ * POST /cells/batch — create multiple battery cell telemetry entries.
+ */
+export const createCellsBatch = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const items: any[] = req.body;
+    if (!Array.isArray(items) || items.length === 0) {
+      res.status(400).json({ message: "Request body must be a non-empty array" });
+      return;
+    }
+
+    if (items.length > 100) {
+      res.status(400).json({ message: "Batch size must not exceed 100 items" });
+      return;
+    }
+
+    const cells = items.map((item) =>
+      repo().create({
+        serialNumber: item.serialNumber,
+        voltage: item.voltage,
+        temperature: item.temperature,
+        stateOfCharge: item.stateOfCharge,
+        stateOfHealth: item.stateOfHealth,
+        cycleCount: item.cycleCount ?? 0,
+      }),
+    );
+
+    const saved = await repo().save(cells);
+    res.status(201).json(saved);
+  } catch (err) {
+    next(err);
+  }
+};
+
+/**
  * GET /cells — return battery cells with pagination.
  */
 export const getAllCells = async (
