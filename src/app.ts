@@ -9,6 +9,7 @@ import cellRoutes from "./routes/cell.routes";
 import { errorHandler } from "./middleware/error-handler";
 import { requestLogger } from "./middleware/request-logger";
 import { apiLimiter } from "./middleware/rate-limiter";
+import { correlationId } from "./middleware/correlation-id";
 
 const app = express();
 
@@ -16,6 +17,7 @@ const app = express();
 app.use(helmet());
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
+app.use(correlationId);
 app.use(requestLogger);
 app.use(apiLimiter);
 
