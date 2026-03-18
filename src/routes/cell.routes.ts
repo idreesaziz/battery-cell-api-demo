@@ -56,6 +56,11 @@ router.post("/", createCellValidation, createCell);
  *     tags: [Battery Cells]
  *     parameters:
  *       - in: query
+ *         name: serialNumber
+ *         schema:
+ *           type: string
+ *         description: Filter by serial number (partial match)
+ *       - in: query
  *         name: page
  *         schema:
  *           type: integer

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
+import { Like } from "typeorm";
 import { AppDataSource } from "../database/data-source";
 import { BatteryCell } from "../entities/BatteryCell";
 
@@ -58,7 +59,13 @@ export const getAllCells = async (
       : "createdAt";
     const order = (req.query.order as string)?.toUpperCase() === "ASC" ? "ASC" : "DESC";
 
+    const where: Record<string, any> = {};
+    if (req.query.serialNumber) {
+      where.serialNumber = Like(`%${req.query.serialNumber as string}%`);
+    }
+
     const [cells, total] = await repo().findAndCount({
+      where,
       order: { [sortBy]: order },
       skip,
       take: limit,
