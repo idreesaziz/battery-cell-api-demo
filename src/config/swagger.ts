@@ -66,6 +66,11 @@ const options: swaggerJsdoc.Options = {
               format: "date-time",
               example: "2024-12-01T14:30:00.000Z",
             },
+            updatedAt: {
+              type: "string",
+              format: "date-time",
+              example: "2024-12-01T15:00:00.000Z",
+            },
           },
         },
         CreateBatteryCellInput: {
