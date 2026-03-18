@@ -52,8 +52,14 @@ export const getAllCells = async (
     const limit = Math.min(Math.max(parseInt(req.query.limit as string) || 20, 1), 100);
     const skip = (page - 1) * limit;
 
+    const allowedSortFields = ["serialNumber", "voltage", "temperature", "stateOfCharge", "stateOfHealth", "cycleCount", "createdAt", "updatedAt"] as const;
+    const sortBy = allowedSortFields.includes(req.query.sortBy as any)
+      ? (req.query.sortBy as string)
+      : "createdAt";
+    const order = (req.query.order as string)?.toUpperCase() === "ASC" ? "ASC" : "DESC";
+
     const [cells, total] = await repo().findAndCount({
-      order: { createdAt: "DESC" },
+      order: { [sortBy]: order },
       skip,
       take: limit,
     });

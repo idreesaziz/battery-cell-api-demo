@@ -68,6 +68,20 @@ router.post("/", createCellValidation, createCell);
  *           default: 20
  *           maximum: 100
  *         description: Items per page
+ *       - in: query
+ *         name: sortBy
+ *         schema:
+ *           type: string
+ *           enum: [serialNumber, voltage, temperature, stateOfCharge, stateOfHealth, cycleCount, createdAt, updatedAt]
+ *           default: createdAt
+ *         description: Field to sort by
+ *       - in: query
+ *         name: order
+ *         schema:
+ *           type: string
+ *           enum: [ASC, DESC]
+ *           default: DESC
+ *         description: Sort order
  *     responses:
  *       200:
  *         description: Paginated list of battery cells
